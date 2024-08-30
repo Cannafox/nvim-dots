@@ -27,18 +27,18 @@ return {
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
-                "rust_analyzer",
-                "autotools_ls",
+                "groovyls",
+                "marksman",
+                "pylsp",
+                "pyright",
+                "jsonls",
                 "bashls",
                 "clangd",
                 "cmake",
-                "diagnoscticls",
+                "diagnosticls",
                 "dockerls",
                 "dotls",
-                "mesonlsp",
-                "pylsp",
                 "yamlls",
-                "vimls",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
@@ -48,15 +48,62 @@ return {
                 end,
 
                 ["lua_ls"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.lua_ls.setup {
-                        capabilities = capabilities,
+                      local lspconfig = require("lspconfig")
+                      lspconfig.lua_ls.setup {
+                          on_init = function(client)
+                              local path = client.workspace_folders[1].name
+                              if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+                                return
+                              end
+                              client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+                                    runtime = {
+                                        version = 'LuaJIT'
+                                    },
+                                    -- Make the server aware of Neovim runtime files
+                                    workspace = {
+                                      checkThirdParty = false,
+                                      library = {
+                                        vim.env.VIMRUNTIME
+                                      }
+                                    }
+                              })
+                          end,
+                          settings = {
+                            Lua = {}
+                          }
+                      }
+                end,
+                ["pylsp"] = function()
+                    local lspconfig = require("lspconfig")                    
+                    lspconfig.pylsp.setup {
                         settings = {
-                            Lua = {
-                                runtime = { version = "LuaJIT" },
-                                diagnostics = {
-                                    globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
-                                }
+                          pylsp = {
+                            plugins = {
+                              pycodestyle = {
+                                ignore = {'W391'},
+                                maxLineLength = 100
+                              }
+                            }
+                          }
+                        }
+                    }
+                end,
+                ["groovyls"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.groovyls.setup {
+                        cmd = { "java", "-jar", "~/sources/groovy-language-server/build/libs/groovy-language-server.jar" }
+                    }
+                end,
+                ["dockerls"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.dockerls.setup {
+                        settings = {
+                            docker = {
+                                languageserver = {
+                                    formatter = {
+                                        ignoreMultilineInstructions = true,
+                                    },
+                                },
                             }
                         }
                     }
