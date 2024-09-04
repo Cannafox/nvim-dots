@@ -194,9 +194,17 @@ return {
                 ["groovyls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.groovyls.setup {
+                        on_attach = on_attach,
                         filetypes = {'groovy'},
                         cmd = { "java", "-jar", "/home/gklodkox/sources/groovy-language-server/build/libs/groovy-language-server-all.jar" },
-                        capabilities = lsp_capabilities
+                        capabilities = lsp_capabilities,
+                        settings = {
+                          groovy = {
+                            classpath = {
+                              vim.fn.expand("%")
+                            }
+                          }
+                        }
                     }
                 end,
                 ["clangd"] = function()
