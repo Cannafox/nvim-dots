@@ -1,6 +1,7 @@
 return {
   "folke/trouble.nvim",
   cmd = "Trouble",
+  opts = {},
   keys = {
     {
       "<leader>tt",
@@ -26,6 +27,16 @@ return {
       "<leader>tq",
       "<cmd>Trouble qflist toggle<cr>",
       desc = "Quickfix List (Trouble)",
+    },
+    {
+      "<leader>[d",
+      "<cmd>Trouble diagnostics next<cr>",
+      desc = "Next diagnostic (Trouble)",
+    },
+    {
+      "<leader>]d",
+      "<cmd>Trouble diagnostics previous<cr>",
+      desc = "Previous diagnostic (Trouble)",
     },
   },
 }
