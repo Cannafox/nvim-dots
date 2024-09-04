@@ -1,4 +1,4 @@
--- Keybindings 
+-- Keybindings
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
   callback = function(client, bufnr)
@@ -161,17 +161,16 @@ return {
                     local lspconfig = require("lspconfig")
                     local venv_path = os.getenv('VIRTUAL_ENV')
                     local py_path = nil
-                    if venv_path ~= nil then 
-                      py_path = venv_path .. "/bin/python3" 
-                    else 
+                    if venv_path ~= nil then
+                      py_path = venv_path .. "/bin/python3"
+                    else
                       py_path = vim.g.python3_host_prog
                     end
-                      
                     lspconfig.pylsp.setup {
                         settings = {
                           pylsp = {
                             plugins = {
-                              -- formatter 
+                              -- formatter
                               black = { enabled = true },
                               pylint = { enabled = true, executable = "pylint" },
                               ruff = { enabled = false },
@@ -189,7 +188,7 @@ return {
                             }
                           }
                         },
-                        capabilities = lsp_capabilities 
+                        capabilities = lsp_capabilities
                     }
                 end,
                 ["groovyls"] = function()
@@ -236,7 +235,7 @@ return {
                 end,
             }
         })
-
+        local ufo = require("ufo").setup()
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
         local lspkind = require("lspkind")
 
