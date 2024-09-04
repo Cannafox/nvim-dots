@@ -1,3 +1,19 @@
+local TrimTrailingWS = function()
+  -- cache current window view, since :s command moves the cursor to last substitution
+  local view = vim.fn.winsaveview()
+  vim.cmd [[%s:\s\+$::e]]
+  vim.fn.winrestview(view) -- restore cached window view
+end
+
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = {"*"},
+  callback = function()
+    local view = vim.fn.winsaveview()
+    vim.cmd [[%s:\s\+$::e]]
+    vim.fn.winrestview(view) -- restore cached window view
+  end,
+})
+
 vim.api.nvim_create_autocmd({ "BufRead" }, {
   pattern = "*",
   group = vim.api.nvim_create_augroup("non_utf8_file", { clear = true }),

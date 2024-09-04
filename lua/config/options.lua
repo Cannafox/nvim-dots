@@ -1,4 +1,4 @@
-vim.opt.guicursor = ""
+vim.opt.clipboard:append {'unnamedplus'}
 
 vim.scriptencoding = "UTF-8"
 vim.opt.encoding = "UTF-8"
