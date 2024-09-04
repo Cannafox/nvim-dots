@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     bufmap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>')
     bufmap('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
     bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
-    bufmap("n", "<leader>f", function() vim.lsp.buf.format {async = true } end)
+    bufmap("n", "<leader>F", function() vim.lsp.buf.format {async = true } end)
 
     vim.api.nvim_create_autocmd("CursorHold", {
       buffer = bufnr,
@@ -194,14 +194,14 @@ return {
                 ["groovyls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.groovyls.setup {
-                        on_attach = on_attach,
                         filetypes = {'groovy'},
                         cmd = { "java", "-jar", "/home/gklodkox/sources/groovy-language-server/build/libs/groovy-language-server-all.jar" },
                         capabilities = lsp_capabilities,
                         settings = {
                           groovy = {
                             classpath = {
-                              vim.fn.expand("%")
+                              vim.fn.expand("%"),
+                              string.gsub(vim.fn.system("git rev-parse --show-toplevel"), "\n", "")
                             }
                           }
                         }
