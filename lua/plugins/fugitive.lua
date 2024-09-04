@@ -4,6 +4,8 @@ local get_current_branch = function()
   return branch
 end
 
+vim.api.nvim_set_keymap("n", "<leader>gcB", ":Git checkout -b ", {desc = "Git checkout to new branch", noremap = true, silent = false})
+vim.api.nvim_set_keymap("n", "<leader>gcm", ":Git commit -m ", {desc = "Git commit", silent = false, noremap = true})
 return {
     "tpope/vim-fugitive",
     cmd = "Git",
@@ -16,8 +18,6 @@ return {
       {"<leader>gA", "<cmd>Git add %<cr>", desc = "Git add current_file"},
       {"<leader>gsb", "<cmd>echo '"..get_current_branch().."'<cr>", desc = "Git show current branch"},
       {"<leader>gcb", "<cmd>Telescope git_branches<cr>", desc = "Git checkout to existing branch"},
-      {"<leader>gcB", "<cmd>Git checkout -b ", desc = "Git checkout to existing branch"},
-      {"<leader>gcm", "<cmd>Git commit -m ", desc = "Git commit"},
       {"<leader>gcM", "<cmd>Git commit --allow-empty -m 'Reset CI'<cr>", desc = "Git commit (empty)"},
 
     }
