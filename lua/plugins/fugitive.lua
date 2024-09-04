@@ -4,11 +4,15 @@ local get_current_branch = function()
   return branch
 end
 
-vim.api.nvim_set_keymap("n", "<leader>gcB", ":Git checkout -b ", {desc = "Git checkout to new branch", noremap = true, silent = false})
-vim.api.nvim_set_keymap("n", "<leader>gcm", ":Git commit -m ", {desc = "Git commit", silent = false, noremap = true})
 return {
     "tpope/vim-fugitive",
     cmd = "Git",
+    init = function ()
+      vim.api.nvim_set_keymap("n", "<leader>gcB", ":Git checkout -b ", {desc = "Git checkout to new branch", noremap = true, silent = false})
+      vim.api.nvim_set_keymap("n", "<leader>gcm", ":Git commit -m ", {desc = "Git commit", silent = false, noremap = true})
+      vim.keymap.set("n", "<leader>gd", "<cmd>diffget //2<CR>", { buffer = vim.api.nvim_get_current_buf(), remap = false, desc = "Git diff 2" })
+      vim.keymap.set("n", "<leader>gD", "<cmd>diffget //3<CR>", { buffer = vim.api.nvim_get_current_buf(), remap = false, desc = "Git diff 3" })
+    end,
     keys = {
       {"<leader>gss", "<cmd>Git status<cr>", desc = "Git status"},
       {"<leader>gl", "<cmd>Git pull --rebase<cr>", desc = "Git pull (rebase)"},
@@ -21,7 +25,5 @@ return {
       {"<leader>gcM", "<cmd>Git commit --allow-empty -m 'Reset CI'<cr>", desc = "Git commit (empty)"},
 
     }
-    --     vim.keymap.set("n", "<leader>gd", "<cmd>diffget //2<CR>", { buffer = bufnr, remap = false, desc = "Git diff 2" })
-    --     vim.keymap.set("n", "<leader>gD", "<cmd>diffget //3<CR>", { buffer = bufnr, remap = false, desc = "Git diff 3" })
     -- end,
 }

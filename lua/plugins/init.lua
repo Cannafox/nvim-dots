@@ -1,3 +1,4 @@
 return {
-    { "ryanoasis/vim-devicons" }
+    { "ryanoasis/vim-devicons" },
+    { "echasnovski/mini.icons", version = false },
 }
