@@ -51,18 +51,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
   end
 })
--- LSP signs
-local sign = function(opts)
-  vim.fn.sign_define(opts.name, {
-    texthl = opts.name,
-    text = opts.text,
-    numhl = ''
-  })
-end
-sign({name = 'DiagnosticSignError', text = ''})
-sign({name = 'DiagnosticSignWarn', text = ''})
-sign({name = 'DiagnosticSignHint', text = ''})
-sign({name = 'DiagnosticSignInfo', text = ''})
+-- -- LSP signs
+-- local sign = function(opts)
+--   vim.fn.sign_define(opts.name, {
+--     texthl = opts.name,
+--     text = opts.text,
+--     numhl = ''
+--   })
+-- end
+-- sign({name = 'DiagnosticSignError', text = ''})
+-- sign({name = 'DiagnosticSignWarn', text = ''})
+-- sign({name = 'DiagnosticSignHint', text = ''})
+-- sign({name = 'DiagnosticSignInfo', text = ''})
 
 
 return {
@@ -89,7 +89,6 @@ return {
         "ray-x/cmp-treesitter",
     },
     config = function()
-        local cmp = require('cmp')
         local cmp_lsp = require("cmp_nvim_lsp")
         local cmp_lsp_capabilities = cmp_lsp.default_capabilities()
         cmp_lsp_capabilities.textDocument.foldingRange = {
@@ -243,9 +242,48 @@ return {
                 end,
             }
         })
+        local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+        local handlers = require('nvim-autopairs.completion.handlers')
+        local cmp = require('cmp')
         local ufo = require("ufo").setup()
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
         local lspkind = require("lspkind")
+
+        cmp.event:on(
+            'confirm_done',
+            cmp_autopairs.on_confirm_done({
+            filetypes = {
+              -- "*" is a alias to all filetypes
+              ["*"] = {
+                ["("] = {
+                  kind = {
+                    cmp.lsp.CompletionItemKind.Function,
+                    cmp.lsp.CompletionItemKind.Method,
+                  },
+                  handler = handlers["*"]
+                }
+              },
+              lua = {
+                ["("] = {
+                  kind = {
+                    cmp.lsp.CompletionItemKind.Function,
+                    cmp.lsp.CompletionItemKind.Method
+                  },
+                  ---@param char string
+                  ---@param item table item completion
+                  ---@param bufnr number buffer number
+                  ---@param rules table
+                  ---@param commit_character table<string>
+                  handler = function(char, item, bufnr, rules, commit_character)
+                    -- Your handler function. Inspect with print(vim.inspect{char, item, bufnr, rules, commit_character})
+                  end
+                }
+              },
+              -- Disable for tex
+              tex = false
+            }
+          })
+        )
 
         cmp.setup({
             mapping = cmp.mapping.preset.insert({
