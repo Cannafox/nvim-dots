@@ -1,7 +1,16 @@
 local M = {
   "folke/trouble.nvim",
   cmd = "Trouble",
-  opts = {},
+  opts = {
+    modes = {
+      diagnostics_buffer = {
+        mode = "diagnostics", -- inherit from diagnostics mode
+        filter = { buf = 0 }, -- filter diagnostics to the current buffer
+        auto_close = true,
+        auto_open = true,
+      },
+    }
+  },
   keys = {
     {
       "<leader>tt",
