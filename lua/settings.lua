@@ -6,7 +6,7 @@ local set_o = vim.o
 set_global.loaded_node_provider = 0
 set_global.loaded_python3_provider = 0
 set_global.loaded_perl_provider = 0
-set_global.lioaded_ruby_provider = 0
+set_global.loaded_ruby_provider = 0
 -- NUMBER LINE
 set_o.number = true
 set_o.relativenumber = true
@@ -26,10 +26,10 @@ set_o.smoothscroll = true
 set_o.clipboard = "unnamedplus"
 set_o.title = true
 set_o.inccommand = "split"
-set_o.timeoutlen = 400
+-- set_o.timeoutlen = 1000
 set_o.ttimeoutlen = 0
 set_o.updatetime = 250
-set_o.wrap = true
+set_o.wrap = false
 set_opt.whichwrap:append "<>[hl]"
 set_opt.shortmess:append "sI"
 set_o.splitbelow = true

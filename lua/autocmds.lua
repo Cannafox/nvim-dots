@@ -1,9 +1,28 @@
-local TrimTrailingWS = function()
-  -- cache current window view, since :s command moves the cursor to last substitution
-  local view = vim.fn.winsaveview()
-  vim.cmd [[%s:\s\+$::e]]
-  vim.fn.winrestview(view) -- restore cached window view
-end
+-- user event that loads after UIEnter + only if file buf is there
+vim.api.nvim_create_autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
+  group = vim.api.nvim_create_augroup("NvFilePost", { clear = true }),
+  callback = function(args)
+    local file = vim.api.nvim_buf_get_name(args.buf)
+    local buftype = vim.api.nvim_get_option_value("buftype", { buf = args.buf })
+
+    if not vim.g.ui_entered and args.event == "UIEnter" then
+      vim.g.ui_entered = true
+    end
+
+    if file ~= "" and buftype ~= "nofile" and vim.g.ui_entered then
+      vim.api.nvim_exec_autocmds("User", { pattern = "FilePost", modeline = false })
+      vim.api.nvim_del_augroup_by_name "NvFilePost"
+
+      vim.schedule(function()
+        vim.api.nvim_exec_autocmds("FileType", {})
+
+        if vim.g.editorconfig then
+          require("editorconfig").config(args.buf)
+        end
+      end)
+    end
+  end,
+})
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = {"*"},
@@ -195,27 +214,27 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave"
   end,
 })
 
-vim.api.nvim_create_autocmd("ColorScheme", {
-  group = vim.api.nvim_create_augroup("custom_highlight", { clear = true }),
-  pattern = "*",
-  desc = "Define or overrride some highlight groups",
-  callback = function()
-    vim.cmd([[
-      " For yank highlight
-      highlight YankColor ctermfg=59 ctermbg=41 guifg=#34495E guibg=#2ECC71
-
-      " For cursor colors
-      highlight Cursor cterm=bold gui=bold guibg=#00c918 guifg=black
-      highlight Cursor2 guifg=red guibg=red
-
-      " For floating windows border highlight
-      highlight FloatBorder guifg=LightGreen guibg=NONE
-
-      " highlight for matching parentheses
-      highlight MatchParen cterm=bold,underline gui=bold,underline
-    ]])
-  end,
-})
+-- vim.api.nvim_create_autocmd("ColorScheme", {
+--   group = vim.api.nvim_create_augroup("custom_highlight", { clear = true }),
+--   pattern = "*",
+--   desc = "Define or overrride some highlight groups",
+--   callback = function()
+--     vim.cmd([[
+--       " For yank highlight
+--       highlight YankColor ctermfg=59 ctermbg=41 guifg=#34495E guibg=#2ECC71
+--
+--       " For cursor colors
+--       highlight Cursor cterm=bold gui=bold guibg=#00c918 guifg=black
+--       highlight Cursor2 guifg=red guibg=red
+--
+--       " For floating windows border highlight
+--       highlight FloatBorder guifg=LightGreen guibg=NONE
+--
+--       " highlight for matching parentheses
+--       highlight MatchParen cterm=bold,underline gui=bold,underline
+--     ]])
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
@@ -243,22 +262,22 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- ref: https://vi.stackexchange.com/a/169/15292
-vim.api.nvim_create_autocmd("BufReadPre", {
-  group = vim.api.nvim_create_augroup("large_file", { clear = true }),
-  pattern = "*",
-  desc = "check if we are inside Git repo",
-  callback = function (ev)
-    local file_size_limit =524288 -- 0.5MB
-    local f = ev.file
-
-    if vim.fn.getfsize(f) > file_size_limit or vim.fn.getfsize(f) == -2 then
-      vim.o.eventignore = "all"
-      --  turning off relative number helps a lot
-      vim.wo.relativenumber = false
-
-      vim.bo.swapfile = false
-      vim.bo.bufhidden = "unload"
-      vim.bo.undolevels = -1
-    end
-  end
-})
+-- vim.api.nvim_create_autocmd("BufReadPre", {
+--   group = vim.api.nvim_create_augroup("large_file", { clear = true }),
+--   pattern = "*",
+--   desc = "check if we are inside Git repo",
+--   callback = function (ev)
+--     local file_size_limit =524288 -- 0.5MB
+--     local f = ev.file
+--
+--     if vim.fn.getfsize(f) > file_size_limit or vim.fn.getfsize(f) == -2 then
+--       vim.o.eventignore = "all"
+--       --  turning off relative number helps a lot
+--       vim.wo.relativenumber = false
+--
+--       vim.bo.swapfile = false
+--       vim.bo.bufhidden = "unload"
+--       vim.bo.undolevels = -1
+--     end
+--   end
+-- })
