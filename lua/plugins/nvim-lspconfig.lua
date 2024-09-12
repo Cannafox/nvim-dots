@@ -6,6 +6,17 @@ local M = {
     "williamboman/mason.nvim",
     "hrsh7th/cmp-nvim-lsp",
     { "folke/neodev.nvim", opts = {} },
+    -- {
+    --   'creativenull/diagnosticls-configs-nvim',
+    --   config = function ()
+    --     local dlsconfig = require("diagnosticls-configs")
+    --     dlsconfig.init({
+    --       default_config = true,
+    --       format = false
+    --     })
+    --     dlsconfig.setup({})
+    --   end
+    -- }
   },
   config = function()
     local lspconfig = require("lspconfig")

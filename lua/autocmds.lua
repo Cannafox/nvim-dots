@@ -186,28 +186,6 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave"
   end,
 })
 
--- vim.api.nvim_create_autocmd("ColorScheme", {
---   group = vim.api.nvim_create_augroup("custom_highlight", { clear = true }),
---   pattern = "*",
---   desc = "Define or overrride some highlight groups",
---   callback = function()
---     vim.cmd([[
---       " For yank highlight
---       highlight YankColor ctermfg=59 ctermbg=41 guifg=#34495E guibg=#2ECC71
---
---       " For cursor colors
---       highlight Cursor cterm=bold gui=bold guibg=#00c918 guifg=black
---       highlight Cursor2 guifg=red guibg=red
---
---       " For floating windows border highlight
---       highlight FloatBorder guifg=LightGreen guibg=NONE
---
---       " highlight for matching parentheses
---       highlight MatchParen cterm=bold,underline gui=bold,underline
---     ]])
---   end,
--- })
-
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   group = vim.api.nvim_create_augroup("auto_close_win", { clear = true }),
@@ -232,24 +210,3 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end
 })
-
--- ref: https://vi.stackexchange.com/a/169/15292
--- vim.api.nvim_create_autocmd("BufReadPre", {
---   group = vim.api.nvim_create_augroup("large_file", { clear = true }),
---   pattern = "*",
---   desc = "check if we are inside Git repo",
---   callback = function (ev)
---     local file_size_limit =524288 -- 0.5MB
---     local f = ev.file
---
---     if vim.fn.getfsize(f) > file_size_limit or vim.fn.getfsize(f) == -2 then
---       vim.o.eventignore = "all"
---       --  turning off relative number helps a lot
---       vim.wo.relativenumber = false
---
---       vim.bo.swapfile = false
---       vim.bo.bufhidden = "unload"
---       vim.bo.undolevels = -1
---     end
---   end
--- })
