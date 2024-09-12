@@ -41,6 +41,9 @@ local M = {
     "ray-x/cmp-treesitter",
   },
   init = function()
+    vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
+  end,
+  config = function()
     -- vim.fn.sign_define('DiagnosticSignError', {texthl = "DiagnosticSignError", text = "✘", numhl = ''})
     -- vim.fn.sign_define('DiagnosticSignWarn', {texthl = "DiagnosticSignWarn", text = "▲", numhl = ''})
     -- vim.fn.sign_define('DiagnosticSignHint', {texthl = "DiagnosticSignHint", text = "⚑", numhl = ''})
@@ -50,8 +53,16 @@ local M = {
       severity_sort = true,
       float = {
         border = 'rounded',
-        source = 'always',
+        source = 'if_many',
       },
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = '✘',
+          [vim.diagnostic.severity.WARN] = '▲',
+          [vim.diagnostic.severity.INFO] = '⚑',
+          [vim.diagnostic.severity.HINT] = '',
+        },
+      }
     })
     vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
       vim.lsp.handlers.hover,
@@ -61,9 +72,7 @@ local M = {
       vim.lsp.handlers.signature_help,
       {border = 'rounded'}
     )
-    vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
-  end,
-  config = function()
+
     local cmp = require("cmp")
     local lspkind = require("lspkind")
     local luasnip = require("luasnip")
@@ -163,7 +172,7 @@ local M = {
       }, {
         { name = "cmdline" }
       }),
-      matching = { disallow_symbol_nonprefix_matching = false }
+      -- matching = { disallow_symbol_nonprefix_matching = false }
     })
   end
 }

@@ -1,7 +1,10 @@
 local M = {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
-  dependencies = { "windwp/nvim-ts-autotag" },
+  dependencies = {
+    "windwp/nvim-ts-autotag",
+    "nvim-treesitter/nvim-treesitter-textobjects"
+  },
   opts = {
     ensure_installed = {
       "vimdoc", "c", "lua", "rust",

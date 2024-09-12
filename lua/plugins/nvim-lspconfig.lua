@@ -13,25 +13,34 @@ local M = {
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
     local protocol = require("vim.lsp.protocol")
 
-    local capabilities = vim.tbl_deep_extend("force", protocol.make_client_capabilities(), cmp_nvim_lsp.default_capabilities())
-
-    capabilities.textDocument.completion.completionItem = {
-      documentationFormat = { "markdown", "plaintext" },
-      snippetSupport = true,
-      preselectSupport = true,
-      insertReplaceSupport = true,
-      labelDetailsSupport = true,
-      deprecatedSupport = true,
-      commitCharactersSupport = true,
-      tagSupport = { valueSet = { 1 } },
-      resolveSupport = {
-        properties = {
-          "documentation",
-          "detail",
-          "additionalTextEdits",
-        },
-      },
+    local completionItem = {
+      textDocument = {
+        completion = {
+          completionItem = {
+            documentationFormat = { "markdown", "plaintext" },
+            snippetSupport = true,
+            preselectSupport = true,
+            insertReplaceSupport = true,
+            labelDetailsSupport = true,
+            deprecatedSupport = true,
+            commitCharactersSupport = true,
+            tagSupport = { valueSet = { 1 } },
+            resolveSupport = {
+              properties = {
+                "documentation",
+                "detail",
+                "additionalTextEdits",
+              },
+            },
+          }
+        }
+      }
     }
+
+    local capabilities = vim.tbl_deep_extend("force", protocol.make_client_capabilities(), cmp_nvim_lsp.default_capabilities(), completionItem)
+
+    -- capabilities.textDocument.completion.completionItem = {
+    -- }
 
     local on_attach = function(_, bufnr)
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "[LSP] Go to declaration"})

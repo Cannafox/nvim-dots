@@ -32,7 +32,11 @@ end
 
 local M = {
 	"nvim-lualine/lualine.nvim",
-	dependencies = { "nvim-tree/nvim-web-devicons", "Isrothy/lualine-diagnostic-message" },
+	dependencies = {
+		"nvim-tree/nvim-web-devicons",
+		"Isrothy/lualine-diagnostic-message",
+		-- "jim-at-jibba/micropython.nvim",
+	},
 	opts = {
 		options = {
 			theme = "catppuccin",
@@ -130,6 +134,10 @@ local M = {
 		table.insert(opts.winbar.lualine_c, {
 			symbols.get,
 			cond = symbols.has,
+		})
+		table.insert(opts.sections.lualine_c, {
+			require("micropython_nvim").statusline,
+			cond = package.loaded["micropython_nvim"] and require("micropython_nvim").exists,
 		})
 		require("lualine").setup(opts)
 	end,
