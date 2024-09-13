@@ -3,13 +3,15 @@ local M = {
   build = ":TSUpdate",
   dependencies = {
     "windwp/nvim-ts-autotag",
-    "nvim-treesitter/nvim-treesitter-textobjects"
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    "RRethy/nvim-treesitter-textsubjects",
+    "LiadOz/nvim-dap-repl-highlights"
   },
   opts = {
     ensure_installed = {
       "vimdoc", "c", "lua", "rust",
-      "jsdoc", "bash", "vim", "query", "markdown",
-      "markdown_inline", "python", "cpp", "fish"
+      "jsdoc", "bash", "vim", "query", "markdown", "groovy",
+      "markdown_inline", "python", "cpp", "fish", "dap_repl"
     },
     sync_install = false,
     ignore_install = {""},
@@ -29,9 +31,16 @@ local M = {
       enable = true,
       enable_autocmd = false,
     },
+    textobjects = { enable = true },
+    textsubjects = { enable = true, prev_selection = ',', keymaps = {
+            ['.'] = 'textsubjects-smart',
+            [';'] = 'textsubjects-container-outer',
+            ['i;'] = { 'textsubjects-container-inner', desc = "Select inside containers (classes, functions, etc.)" },
+        } }
   },
   config = function(_, opts)
     local configs = require("nvim-treesitter.configs")
+    require("nvim-dap-repl-highlights").setup()
 
     configs.setup(opts)
   end

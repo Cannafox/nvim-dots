@@ -12,7 +12,7 @@ local M = {
 			above = false, -- the virtual text will be displayed above the line
 		},
 		priority = 2003, -- the priority of virtual text
-		inline = true,
+		inline = false,
 	},
 	config = function(_, opts)
 		require("better-diagnostic-virtual-text").setup(opts)

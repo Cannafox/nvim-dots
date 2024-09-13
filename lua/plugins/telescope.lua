@@ -9,6 +9,7 @@ local M = {
       "nvim-telescope/telescope-project.nvim",
       "nvim-telescope/telescope-live-grep-args.nvim",
       "nvim-telescope/telescope-frecency.nvim",
+      "nvim-telescope/telescope-dap.nvim",
   },
   init = function()
     vim.g.lazyvim_picker = "telescope"
@@ -33,7 +34,7 @@ local M = {
         },
       },
     },
-    extensions_list = { "ui-select", "frecency", "project", "live_grep_args" },
+    extensions_list = { "ui-select", "frecency", "project", "live_grep_args", "dap" },
     extensions = {},
   },
   config = function(_, opts)

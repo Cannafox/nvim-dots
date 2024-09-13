@@ -8,6 +8,7 @@ local M = {
         filter = { buf = 0 }, -- filter diagnostics to the current buffer
         auto_close = true,
         auto_open = true,
+        open_no_results = true,
       },
     }
   },
