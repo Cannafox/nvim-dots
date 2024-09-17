@@ -28,9 +28,9 @@ local M  = {
       ['mason-lspconfig'] = true
     }
   },
-  -- config = function(_, opts)
-  --   require("mason-tool-installer").setup(opts)
-  -- end
+  config = function(_, opts)
+    require("mason-tool-installer").setup(opts)
+  end
 }
 
 return { M }
