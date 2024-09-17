@@ -139,7 +139,7 @@ local M = {
 							plugins = {
 								-- formatter
 								black = { enabled = true },
-								pylint = { enabled = true, executable = "pylint" },
+								pylint = { enabled = true, executable = "pylint", args = {"-d C0114,C0115,C0116"} },
 								ruff = { enabled = false },
 								pylsp_mypy = {
 									enabled = true,

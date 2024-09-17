@@ -3,7 +3,7 @@ local set_opt = vim.opt
 local set_o = vim.o
 
 -- GLOBALS
-set_global.loaded_node_provider = 0
+set_global.loaded_node_provider = 1
 -- set_global.loaded_python3_provider = 0
 set_global.loaded_perl_provider = 0
 set_global.loaded_ruby_provider = 0
@@ -35,6 +35,7 @@ set_opt.whichwrap:append "<>[hl]"
 set_opt.shortmess:append "sI"
 set_o.splitbelow = true
 set_o.splitright = true
+set_o.winheight = 3
 set_o.scrolloff = 6
 set_o.signcolumn = "yes"
 set_o.colorcolumn = "80"

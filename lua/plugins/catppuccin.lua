@@ -51,21 +51,21 @@ local M = {
       fidget = true,
       mason = true,
       native_lsp = {
-        enabled = false,
-        -- virtual_text = {
-        --     errors = { "italic" },
-        --     hints = { "italic" },
-        --     warnings = { "italic" },
-        --     information = { "italic" },
-        --     ok = { "italic" },
-        -- },
-        -- underlines = {
-        --     errors = { "underline" },
-        --     hints = { "underline" },
-        --     warnings = { "underline" },
-        --     information = { "underline" },
-        --     ok = { "underline" },
-        -- },
+        enabled = true,
+        virtual_text = {
+            errors = { "italic" },
+            hints = { "italic" },
+            warnings = { "italic" },
+            information = { "italic" },
+            ok = { "italic" },
+        },
+        underlines = {
+            errors = { "underline" },
+            hints = { "underline" },
+            warnings = { "underline" },
+            information = { "underline" },
+            ok = { "underline" },
+        },
         -- inlay_hints = {
         --     background = true,
         -- },
@@ -78,7 +78,7 @@ local M = {
       },
       lsp_trouble = true,
       which_key = true,
-      semantic_tokens = true,
+      semantic_tokens = false,
     },
   },
   config = function(_, opts)
