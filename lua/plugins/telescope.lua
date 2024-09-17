@@ -2,6 +2,7 @@ local M = {
   'nvim-telescope/telescope.nvim',
   branch = '0.1.x',
   cmd = "Telescope",
+  event = "VimEnter",
   dependencies = {
       'nvim-treesitter/nvim-treesitter',
       "nvim-telescope/telescope-ui-select.nvim",
@@ -28,11 +29,6 @@ local M = {
         width = 0.87,
         height = 0.80,
       },
-      mappings = {
-        n = {
-          ["q"] = require("telescope.actions").close,
-        },
-      },
     },
     extensions_list = { "ui-select", "frecency", "project", "live_grep_args", "dap" },
     extensions = {},
@@ -47,7 +43,6 @@ local M = {
       telescope.load_extension(extension)
     end
 
-    local builtin = require('telescope.builtin')
     vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "Find files" })
     vim.keymap.set('n', '<leader>fg', telescope.extensions.live_grep_args.live_grep_args, { desc = "Grep files" })
     vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = "Search buffers" })

@@ -7,7 +7,7 @@ set_global.loaded_node_provider = 0
 -- set_global.loaded_python3_provider = 0
 set_global.loaded_perl_provider = 0
 set_global.loaded_ruby_provider = 0
-set_global.python3_host_prog = '/home/fox/.pyenv/versions/neovim/bin/python'
+set_global.python3_host_prog = '/home/gklodkox/.pyenv/versions/neovim/bin/python'
 -- NUMBER LINE
 set_o.number = true
 set_o.relativenumber = true

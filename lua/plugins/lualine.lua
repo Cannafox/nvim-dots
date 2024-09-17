@@ -135,10 +135,10 @@ local M = {
 			symbols.get,
 			cond = symbols.has,
 		})
-		table.insert(opts.sections.lualine_c, {
-			require("micropython_nvim").statusline,
-			cond = package.loaded["micropython_nvim"] and require("micropython_nvim").exists,
-		})
+		-- table.insert(opts.sections.lualine_c, {
+		-- 	require("micropython_nvim").statusline,
+		-- 	cond = package.loaded["micropython_nvim"] and require("micropython_nvim").exists,
+		-- })
 		require("lualine").setup(opts)
 	end,
 }
