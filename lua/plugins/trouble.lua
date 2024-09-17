@@ -6,7 +6,7 @@ local M = {
       diagnostics_buffer = {
         mode = "diagnostics", -- inherit from diagnostics mode
         filter = { buf = 0 }, -- filter diagnostics to the current buffer
-        auto_close = true,
+        auto_close = false,
         auto_open = true,
         open_no_results = true,
       },
