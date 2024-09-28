@@ -60,15 +60,15 @@ local M = {
             ok = { "italic" },
         },
         underlines = {
-            errors = { "underline" },
-            hints = { "underline" },
-            warnings = { "underline" },
-            information = { "underline" },
-            ok = { "underline" },
+            errors = { "undercurl" },
+            hints = { "undercurl" },
+            warnings = { "undercurl" },
+            information = { "undercurl" },
+            ok = { "undercurl" },
         },
-        -- inlay_hints = {
-        --     background = true,
-        -- },
+        inlay_hints = {
+            background = true,
+        },
       },
       treesitter_context = true,
       ufo = true,
@@ -78,7 +78,7 @@ local M = {
       },
       lsp_trouble = true,
       which_key = true,
-      semantic_tokens = false,
+      semantic_tokens = true,
     },
   },
   config = function(_, opts)

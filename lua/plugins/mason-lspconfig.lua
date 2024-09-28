@@ -19,9 +19,9 @@ local M = {
       "vimls",
     }
   },
-  config = function(_, opts)
-    require("mason-lspconfig").setup(opts)
-  end
+  -- config = function(_, opts)
+  --   require("mason-lspconfig").setup(opts)
+  -- end
 }
 
 return { M }

@@ -8,7 +8,6 @@ local M = {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-calc",
     {"mtoohey31/cmp-fish", ft = "fish"},
-    {"vrslev/cmp-pypi", ft = "toml"},
     "petertriho/cmp-git",
     "hrsh7th/cmp-cmdline",
     "lukas-reineke/cmp-rg",
@@ -44,16 +43,15 @@ local M = {
     vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
   end,
   config = function()
-    -- vim.fn.sign_define('DiagnosticSignError', {texthl = "DiagnosticSignError", text = "✘", numhl = ''})
-    -- vim.fn.sign_define('DiagnosticSignWarn', {texthl = "DiagnosticSignWarn", text = "▲", numhl = ''})
-    -- vim.fn.sign_define('DiagnosticSignHint', {texthl = "DiagnosticSignHint", text = "⚑", numhl = ''})
-    -- vim.fn.sign_define('DiagnosticSignInfo', {texthl = "DiagnosticSignInfo", text = "", numhl = ''})
+    local cmp = require("cmp")
+    local luasnip = require("luasnip")
+
     vim.diagnostic.config({
-      virtual_text = false,
+      virtual_text = true,
       severity_sort = true,
       float = {
         border = 'rounded',
-        source = 'if_many',
+        -- source = 'if_many',
       },
       signs = {
         text = {
@@ -73,9 +71,6 @@ local M = {
       {border = 'rounded'}
     )
 
-    local cmp = require("cmp")
-    local lspkind = require("lspkind")
-    local luasnip = require("luasnip")
 
     require('luasnip.loaders.from_vscode').lazy_load()
     local cmp_select = { behavior = cmp.SelectBehavior.Select }
@@ -89,11 +84,24 @@ local M = {
       formatting = {
         fields = {'menu', 'abbr', 'kind'},
         expandable_indicator = true,
-        format = lspkind.cmp_format({
-          mode = 'symbol_text', -- show only symbol annotations
+        format = require('lspkind').cmp_format({
+          with_text = 'true', -- show only symbol annotations
           maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
           ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
           show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+          menu = ({
+              nvim_lsp = "[LSP]",
+              luasnip = "[LuaSnip]",
+              luasnip_choice = "[LuaSnip]",
+              path = "[Path]",
+              calc = "[Calc]",
+              git = "[Git]",
+              treesitter = "[TS]",
+              nvim_lsp_signature_help = "[LspSig]",
+              rg = "[Rg]",
+              buffer = "[Buffer]",
+
+          })
         })
       },
       sources = cmp.config.sources({
@@ -105,8 +113,6 @@ local M = {
         {name = 'git'},
         {name = 'treesitter'},
         {name = 'nvim_lsp_signature_help'},
-        {name = 'pypi', keyword_length = 4},
-        {name = 'fish', option = { fish_path = "/usr/bin/fish" }},
         {name = 'rg', keyword_length = 3},
         {name = 'buffer', keyword_length = 3},
       }),
@@ -174,6 +180,42 @@ local M = {
       }),
       -- matching = { disallow_symbol_nonprefix_matching = false }
     })
+
+		local lspconfig = require("lspconfig")
+		local cmp_nvim_lsp = require("cmp_nvim_lsp")
+		local protocol = require("vim.lsp.protocol")
+
+		local completionItem = {
+			textDocument = {
+				completion = {
+					completionItem = {
+						documentationFormat = { "markdown", "plaintext" },
+						snippetSupport = true,
+						preselectSupport = true,
+						insertReplaceSupport = true,
+						labelDetailsSupport = true,
+						deprecatedSupport = true,
+						commitCharactersSupport = true,
+						tagSupport = { valueSet = { 1 } },
+						resolveSupport = {
+							properties = {
+								"documentation",
+								"detail",
+								"additionalTextEdits",
+							},
+						},
+					},
+				},
+			},
+		}
+
+		local capabilities = vim.tbl_deep_extend(
+			"force",
+			protocol.make_client_capabilities(),
+			cmp_nvim_lsp.default_capabilities(),
+			completionItem
+		)
+    lspconfig.util.default_config = capabilities
   end
 }
 

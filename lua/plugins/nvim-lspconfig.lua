@@ -13,7 +13,7 @@ local M = {
 			},
 		},
 	},
-	config = function()
+	config = function(_, opts)
 		local lspconfig = require("lspconfig")
 		local mason_lspconfig = require("mason-lspconfig")
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -139,13 +139,14 @@ local M = {
 							plugins = {
 								-- formatter
 								black = { enabled = true },
-								pylint = { enabled = true, executable = "pylint", args = {"-d C0114,C0115,C0116"} },
-								ruff = { enabled = false },
+								pylint = { enabled = false, executable = "pylint", args = {"-d C0114,C0115,C0116"} },
+								ruff = { enabled = true },
+                based_pyright = { enabled = false },
 								pylsp_mypy = {
 									enabled = true,
 									overrides = { "--python-executable", py_path, true },
 									report_progress = true,
-									live_mode = false,
+									live_mode = true,
 								},
 								pycodestyle = {
 									ignore = { "W391" },

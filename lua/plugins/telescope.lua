@@ -11,9 +11,6 @@ local M = {
       "nvim-telescope/telescope-frecency.nvim",
       "nvim-telescope/telescope-dap.nvim",
   },
-  init = function()
-    vim.g.lazyvim_picker = "telescope"
-  end,
   opts = {
     defaults = {
       prompt_prefix = "   ",
