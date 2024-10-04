@@ -1,9 +1,7 @@
-local M  = {
-  "WhoIsSethDaniel/mason-tool-installer.nvim",
-  dependencies = {
-    "williamboman/mason.nvim",
-  },
-  opts = {
+local M = { "WhoIsSethDaniel/mason-tool-installer.nvim" }
+
+function M.opts()
+  return {
     auto_update = true,
     ensure_installed = {
       "stylua",
@@ -27,10 +25,7 @@ local M  = {
     integrations = {
       ['mason-lspconfig'] = true
     }
-  },
-  -- config = function(_, opts)
-  --   require("mason-tool-installer").setup(opts)
-  -- end
-}
+  }
+end
 
-return { M }
+return M

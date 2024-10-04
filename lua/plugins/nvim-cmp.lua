@@ -23,15 +23,7 @@ local M = {
       "windwp/nvim-autopairs",
       opts = {
         fast_wrap = {},
-        disable_filetype = { "TelescopePrompt", "vim" },
       },
-      config = function(_, opts)
-        require("nvim-autopairs").setup(opts)
-
-        -- setup cmp for autopairs
-        local cmp_autopairs = require "nvim-autopairs.completion.cmp"
-        require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
-      end,
     },
     "rafamadriz/friendly-snippets",
     "onsails/lspkind.nvim",
@@ -44,6 +36,10 @@ local M = {
   end,
   config = function()
     local cmp = require("cmp")
+    -- setup cmp for autopairs
+    local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+
+    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
     local luasnip = require("luasnip")
 
     vim.diagnostic.config({
@@ -53,14 +49,14 @@ local M = {
         border = 'rounded',
         -- source = 'if_many',
       },
-      signs = {
-        text = {
-          [vim.diagnostic.severity.ERROR] = '✘',
-          [vim.diagnostic.severity.WARN] = '▲',
-          [vim.diagnostic.severity.INFO] = '⚑',
-          [vim.diagnostic.severity.HINT] = '',
-        },
-      }
+      -- signs = {
+      --   text = {
+      --     [vim.diagnostic.severity.ERROR] = '✘',
+      --     [vim.diagnostic.severity.WARN] = '▲',
+      --     [vim.diagnostic.severity.INFO] = '⚑',
+      --     [vim.diagnostic.severity.HINT] = '',
+      --   },
+      -- }
     })
     vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
       vim.lsp.handlers.hover,
@@ -187,6 +183,10 @@ local M = {
 
 		local completionItem = {
 			textDocument = {
+        foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+          },
 				completion = {
 					completionItem = {
 						documentationFormat = { "markdown", "plaintext" },

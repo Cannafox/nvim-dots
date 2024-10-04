@@ -1,7 +1,7 @@
-local M = {
-  "williamboman/mason-lspconfig.nvim",
-  dependencies = { "williamboman/mason.nvim" },
-  opts = {
+local M = { "williamboman/mason-lspconfig.nvim" }
+
+function M.opts()
+  return {
     automatic_installation = true,
     ensure_installed = {
       "lua_ls",
@@ -18,10 +18,7 @@ local M = {
       "yamlls",
       "vimls",
     }
-  },
-  -- config = function(_, opts)
-  --   require("mason-lspconfig").setup(opts)
-  -- end
-}
+  }
+end
 
-return { M }
+return M

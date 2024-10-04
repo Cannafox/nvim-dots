@@ -1,9 +1,10 @@
-local M = {
-  "catppuccin/nvim",
-  name = "catppuccin",
-  priority = 1000,
-  lazy = false,
-  opts = {
+local M = { "catppuccin/nvim" }
+
+M.name = "catppuccin"
+M.priority = 1000
+
+function M.opts()
+  return {
     flavour = "mocha", -- latte, frappe, macchiato, mocha
     background = { -- :h background
       light = "latte",
@@ -15,7 +16,7 @@ local M = {
     dim_inactive = {
       enabled = true, -- dims the background color of inactive window
       shade = "dark",
-      percentage = 0.10, -- percentage of the shade to apply to the inactive window
+      percentage = 0.20, -- percentage of the shade to apply to the inactive window
     },
     no_italic = false, -- Force no italic
     no_bold = false, -- Force no bold
@@ -79,12 +80,13 @@ local M = {
       lsp_trouble = true,
       which_key = true,
       semantic_tokens = true,
-    },
-  },
-  config = function(_, opts)
-    require("catppuccin").setup(opts)
-    vim.cmd.colorscheme("catppuccin")
-  end
-}
+    }
+  }
+end
 
-return { M }
+function M.config(_, opts)
+  require("catppuccin").setup(opts)
+  vim.cmd.colorscheme("catppuccin")
+end
+
+return M

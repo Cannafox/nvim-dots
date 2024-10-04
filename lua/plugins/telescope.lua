@@ -10,6 +10,7 @@ local M = {
       "nvim-telescope/telescope-live-grep-args.nvim",
       "nvim-telescope/telescope-frecency.nvim",
       "nvim-telescope/telescope-dap.nvim",
+      "debugloop/telescope-undo.nvim",
   },
   opts = {
     defaults = {
