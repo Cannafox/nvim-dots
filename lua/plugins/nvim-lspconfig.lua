@@ -13,7 +13,7 @@ local M = {
 			},
 		},
 	},
-	config = function(_, opts)
+	config = function()
 		local lspconfig = require("lspconfig")
 		local mason_lspconfig = require("mason-lspconfig")
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -139,9 +139,9 @@ local M = {
 							plugins = {
 								-- formatter
 								black = { enabled = true },
-								pylint = { enabled = false, executable = "pylint", args = {"-d C0114,C0115,C0116"} },
+								pylint = { enabled = false, executable = "pylint", args = { "-d C0114,C0115,C0116" } },
 								ruff = { enabled = true },
-                based_pyright = { enabled = false },
+								based_pyright = { enabled = false },
 								pylsp_mypy = {
 									enabled = true,
 									overrides = { "--python-executable", py_path, true },
@@ -175,6 +175,18 @@ local M = {
 								vim.fn.expand("%"),
 								string.gsub(vim.fn.system("git rev-parse --show-toplevel"), "\n", ""),
 							},
+						},
+					},
+				})
+			end,
+			["rust_analyzer"] = function()
+				lspconfig["rust_analyzer"].setup({
+					filetypes = { "c", "cpp", "cc" },
+					on_attach = on_attach,
+					capabilities = capabilities,
+					settings = {
+						diagnostics = {
+							enable = false,
 						},
 					},
 				})

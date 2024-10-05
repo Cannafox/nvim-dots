@@ -1,8 +1,9 @@
-local M = {
-  "gbprod/yanky.nvim",
-  opts = {
-    preserve_cursor_position = { enabled = false }
-  }
-}
+local M = { "gbprod/yanky.nvim" }
 
-return { M }
+function M.opts()
+  return {
+    preserve_cursor_position = { enabled = true }
+  }
+end
+
+return M
