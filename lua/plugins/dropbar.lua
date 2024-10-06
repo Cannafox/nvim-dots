@@ -1,9 +1,5 @@
-local M = {
-  'Bekaboo/dropbar.nvim',
-  -- optional, but required for fuzzy finder support
-  dependencies = {
-    'nvim-telescope/telescope-fzf-native.nvim'
-  }
-}
+local M = { 'Bekaboo/dropbar.nvim' }
 
-return { M }
+M.dependencies = 'nvim-telescope/telescope-fzf-native.nvim'
+
+return M

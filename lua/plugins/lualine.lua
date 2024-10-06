@@ -1,14 +1,13 @@
+local venv_path = os.getenv("VIRTUAL_ENV")
+
 local get_venv = function()
 	if vim.bo.filetype ~= "python" then
-		return ""
+		return { "" }
 	end
-
-	local venv_path = os.getenv("VIRTUAL_ENV")
-
 	if venv_path == nil then
-		return ""
+		return { "" }
 	else
-		return vim.fn.fnamemodify(venv_path, ":t")
+		return { vim.fn.fnamemodify(venv_path, ":t") }
 	end
 end
 
@@ -30,14 +29,16 @@ local get_active_lsp = function()
 	return msg
 end
 
-local M = {
-	"nvim-lualine/lualine.nvim",
-	dependencies = {
-		"nvim-tree/nvim-web-devicons",
-		"Isrothy/lualine-diagnostic-message",
-		-- "jim-at-jibba/micropython.nvim",
-	},
-	opts = {
+local M = { "nvim-lualine/lualine.nvim" }
+
+M.dependencies = {
+	"nvim-tree/nvim-web-devicons",
+	"Isrothy/lualine-diagnostic-message",
+	-- "jim-at-jibba/micropython.nvim",
+}
+
+function M.opts()
+	return {
 		options = {
 			theme = "catppuccin",
 			icons_enabled = true,
@@ -62,10 +63,7 @@ local M = {
 				},
 			},
 			lualine_c = {
-				{
-					"diagnostics",
-					sources = { "nvim_diagnostic" },
-				},
+				{ "diagnostics", sources = { "nvim_diagnostic" } },
 				{ "searchcount", maxcount = 999, timeout = 500 },
 			},
 			lualine_x = {
@@ -76,7 +74,7 @@ local M = {
 				{ "progress", padding = { left = 1, right = 1 } },
 			},
 			lualine_z = {
-				{ get_venv },
+				get_venv,
 				function()
 					return os.date("%R")
 				end,
@@ -112,35 +110,38 @@ local M = {
 		},
 		tabline = {},
 		extensions = { "lazy", "mason", "mundo", "nvim-tree", "trouble" },
-	},
-	config = function(_, opts)
-		local keymap = vim.keymap
-		keymap.set("n", "gb", function()
-			vim.cmd("LualineBuffersJump! " .. vim.v.count)
-		end, { desc = "Jump to the buffer" })
-		keymap.set("n", "gB", "<cmd>LualineBuffersJump $<CR>", { desc = "Jump to the last buffer" })
+	}
+end
 
-		local trouble = require("trouble")
-		local symbols = trouble.statusline({
-			mode = "symbols",
-			groups = {},
-			title = false,
-			filter = { range = true },
-			format = "{kind_icon}{symbol.name:Normal}",
-			-- The following line is needed to fix the background color
-			-- Set it to the lualine section you want to use
-			hl_group = "lualine_c_normal",
-		})
-		table.insert(opts.winbar.lualine_c, {
-			symbols.get,
-			cond = symbols.has,
-		})
-		table.insert(opts.sections.lualine_c, {
-			require("micropython_nvim").statusline,
-			cond = package.loaded["micropython_nvim"] and require("micropython_nvim").exists,
-		})
-		require("lualine").setup(opts)
-	end,
-}
+function M.config(_, opts)
+	local keymap = vim.keymap
 
-return { M }
+	keymap.set("n", "gb", function()
+		vim.cmd("LualineBuffersJump! " .. vim.v.count)
+	end, { desc = "Jump to the buffer" })
+	keymap.set("n", "gB", "<cmd>LualineBuffersJump $<CR>", { desc = "Jump to the last buffer" })
+
+	local trouble = require("trouble")
+	local symbols = trouble.statusline({
+		mode = "symbols",
+		groups = {},
+		title = false,
+		filter = { range = true },
+		format = "{kind_icon}{symbol.name:Normal}",
+		-- The following line is needed to fix the background color
+		-- Set it to the lualine section you want to use
+		hl_group = "lualine_c_normal",
+	})
+	table.insert(opts.winbar.lualine_c, {
+		symbols.get,
+		cond = symbols.has,
+	})
+	-- table.insert(opts.sections.lualine_c, {
+	-- 	require("micropython_nvim").statusline,
+	-- 	cond = package.loaded["micropython_nvim"] and require("micropython_nvim").exists,
+	-- })
+
+	require("lualine").setup(opts)
+end
+
+return M

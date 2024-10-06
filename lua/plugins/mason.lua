@@ -1,10 +1,7 @@
-local M = {
-  "williamboman/mason.nvim",
-  dependencies = {
-    -- "williamboman/mason-lspconfig.nvim",
-    -- "WhoIsSethDaniel/mason-tool-installer.nvim",
-  },
-  opts = {
+local M = {  "williamboman/mason.nvim" }
+
+function M.opts()
+  return {
     ui = {
       icons = {
         package_installed = "✓",
@@ -13,6 +10,7 @@ local M = {
       }
     }
   }
-}
 
-return { M }
+end
+
+return M

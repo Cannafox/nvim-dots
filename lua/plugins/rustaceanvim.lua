@@ -7,8 +7,7 @@ function M.init()
   vim.g.rustaceanvim = function()
     return {
       -- Plugin configuration
-      tools = {
-      },
+      tools = {},
       -- LSP configuration
       server = {
         on_attach = function(client, bufnr)
@@ -16,13 +15,11 @@ function M.init()
         end,
         default_settings = {
           -- rust-analyzer language server configuration
-          ['rust-analyzer'] = {
-          },
+          ['rust-analyzer'] = {},
         },
       },
       -- DAP configuration
-      dap = {
-      },
+      dap = {},
     }
   end
 end

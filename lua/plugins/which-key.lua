@@ -1,15 +1,12 @@
-local M = {
-  "folke/which-key.nvim",
-  event = "VeryLazy",
-  opts = {
-    preset = "modern",
-    icons = {
-      mappings = false
-    }
-  },
-  config = function(_, opts)
-    require("which-key").setup(opts)
-  end
-}
+local M = { "folke/which-key.nvim" }
 
-return { M }
+M.event = "VeryLazy"
+
+function M.opts()
+  return {
+    preset = "modern",
+    icons = { mappings = false }
+  }
+end
+
+return M

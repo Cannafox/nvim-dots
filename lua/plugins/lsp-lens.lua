@@ -1,8 +1,9 @@
-local SymbolKind = vim.lsp.protocol.SymbolKind
+local M = { "VidocqH/lsp-lens.nvim" }
 
-local M = {
-	"VidocqH/lsp-lens.nvim",
-	opts = {
+function M.opts()
+  local SymbolKind = vim.lsp.protocol.SymbolKind
+
+  return {
 		enable = true,
 		include_declaration = false, -- Reference include declaration
 		sections = { -- Enable / Disable specific request, formatter example looks 'Format Requests'
@@ -11,17 +12,10 @@ local M = {
 			implements = true,
 			git_authors = true,
 		},
-		ignore_filetype = {
-			"prisma",
-		},
-		-- Target Symbol Kinds to show lens information
+		ignore_filetype = { "prisma" },
 		target_symbol_kinds = { SymbolKind.Function, SymbolKind.Method, SymbolKind.Interface },
-		-- Symbol Kinds that may have target symbol kinds as children
 		wrapper_symbol_kinds = { SymbolKind.Class, SymbolKind.Struct },
-	},
-  config = function (_, opts)
-    require("lsp-lens").setup(opts)
-  end
-}
+  }
+end
 
-return { M }
+return M

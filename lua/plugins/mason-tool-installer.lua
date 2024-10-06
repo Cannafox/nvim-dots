@@ -1,5 +1,7 @@
 local M = { "WhoIsSethDaniel/mason-tool-installer.nvim" }
 
+M.dependencies = "williamboman/mason-lspconfig.nvim"
+
 function M.opts()
   return {
     auto_update = true,

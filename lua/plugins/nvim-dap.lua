@@ -1,5 +1,3 @@
-local M = {
-  'mfussenegger/nvim-dap'
-}
+local M = { 'mfussenegger/nvim-dap' }
 
-return { M }
+return M

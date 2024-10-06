@@ -1,8 +1,9 @@
-local M = {
-	'mfussenegger/nvim-dap-python',
-	config = function ()
-		require("dap-python").setup(vim.g.python3_host_prog)
-	end
-}
+local M = {	'mfussenegger/nvim-dap-python' }
 
-return { M }
+M.dependencies = "mfussenegger/nvim-dap"
+
+function M.config()
+  require("dap-python").setup(vim.g.python3_host_prog)
+end
+
+return M

@@ -1,7 +1,9 @@
-local M = {
-  "nvim-tree/nvim-tree.lua",
-  cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-  opts = {
+local M = { "nvim-tree/nvim-tree.lua" }
+
+M.cmd = { "NvimTreeToggle", "NvimTreeFocus" }
+
+function M.opts()
+  return {
     sort = {
       sorter = "case_sensitive",
     },
@@ -10,8 +12,8 @@ local M = {
     },
     renderer = {
       group_empty = true,
-    },
+    }
   }
-}
+end
 
-return { M }
+return M

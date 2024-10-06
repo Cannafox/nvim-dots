@@ -1,11 +1,9 @@
-local M = {
-	"robitx/gp.nvim",
-  opts = {
-    openai_api_key = { "cat", "/home/fox/.config/openai.token" }
-  },
-	config = function(_, opts)
-		require("gp").setup(opts)
-	end,
-}
+local M = { "robitx/gp.nvim" }
 
-return { M }
+function M.opts()
+  local api_key_path = "/home/fox/.config/openai.token"
+
+  return { openai_api_key = { "cat",  api_key_path} }
+end
+
+return M
